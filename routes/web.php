@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
     return view('landing.index');
@@ -15,4 +16,4 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-Route::get('/dashboard/user', [CustomDashboardController::class, 'index'])->name('dashboard.user');
+route::get('home',[HomeController::class,'index']);
