@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Controller;
 
 Route::get('/', function () {
     return view('landing.index');
@@ -17,3 +18,4 @@ Route::middleware([
     })->name('dashboard');
 });
 route::get('home',[HomeController::class,'index']);
+Route::get('/products', [Controller::class, 'index']);
