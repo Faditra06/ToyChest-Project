@@ -19,3 +19,6 @@ Route::middleware([
 });
 route::get('home',[HomeController::class,'index']);
 Route::get('/products', [Controller::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->get('/profile', function () {
+    return view('profile.show');
+})->name('profile.show');
