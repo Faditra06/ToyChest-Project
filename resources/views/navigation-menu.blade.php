@@ -1,24 +1,41 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-toychest1">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+    <div class="px-2 sm:px-4 lg:px-6">
+        <div class="flex">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
+                <div class="shrink-0 flex items-center ps-14 pb-1 pt-3">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <img src="{{ asset('images/c3fd4904-5e2a-44ca-920e-0366a805ef65-transformed-removebg-preview.png') }}" alt="Logo" class="w-1/4">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Home') }}
+                <div class="sm:-my-px sm:ms-44 sm:flex">
+                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-2">
+                        Home
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-2">
+                        About
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-2">
+                        Shop
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-1">
+                        Contact
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase ms-2">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </x-nav-link>
+                    <form class="form-inline">
+                        <button class="btn mx-2 my-2 my-sm-0 nav_search-btn" type="submit">
+                            <i class="fa fa-search text-white" aria-hidden="true"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-1">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ms-3 relative">
@@ -72,16 +89,16 @@
                 @endif
 
                 <!-- Settings Dropdown -->
-                <div class="ms-3 relative">
-                    <x-dropdown align="right" width="48">
+                <div class="ms-2 relative">
+                    <x-dropdown>
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
                                     <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                                 </button>
                             @else
-                                <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                <span class="inline-flex rounded-full">
+                                    <button type="button" class="inline-flex items-center px-4 py-2 border-transparent text-md leading-4 font-sm rounded-full text-white bg-toychest2 hover:bg-toychest3 focus:outline-none focus:bg-toychest3 active:bg-toychest3 transition ease-in-out duration-150">
                                         {{ Auth::user()->name }}
 
                                         <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

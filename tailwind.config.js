@@ -4,11 +4,13 @@ import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    mode: 'jit', // Aktifkan JIT mode
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './resources/js/**/*.js', // Tambahkan jika perlu
     ],
 
     theme: {
@@ -16,6 +18,11 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                toychest1: '#3fc1c9',
+                toychest2: '#203247',
+                toychest3: '#080d12',
+            }
         },
     },
 

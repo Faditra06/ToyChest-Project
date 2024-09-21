@@ -44,7 +44,7 @@
   </x-app-layout>
   <!-- header section end -->
   <!-- slider section -->
-  <section class="slider_section ">
+  <section class="slider_section px-52">
     <div id="customCarousel1" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -147,12 +147,12 @@
 
   <!-- feature section -->
 
-  <section class="feature_section ">
+  <section class="feature_section">
     <div class="feature_container">
-      <div class="container ">
-        <div class="row">
-          <div class="col-md-4 ">
-            <div class="box ">
+      <div class="container">
+        <div class="row ">
+          <div class="col-md-4">
+            <div class="box">
               <div class="img-box">
                 <svg xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 640 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -244,8 +244,8 @@
                 </g>
                 </svg>
               </div>
-              <div class="detail-box">
-                <h5>
+              <div class="detail-box px-14">
+                <h5 class="text-xl">
                   Fast Shipping
                 </h5>
                 <p>
@@ -255,7 +255,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 ">
+          <div class="col-md-4">
             <div class="box ">
               <div class="img-box">
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -273,8 +273,8 @@
                 </g>
                 </svg>
               </div>
-              <div class="detail-box">
-                <h5>
+              <div class="detail-box px-14">
+                <h5 class="text-xl">
                   Uncompromising Quality in Every Toy
                 </h5>
                 <p>
@@ -284,7 +284,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 ">
+          <div class="col-md-4">
             <div class="box ">
               <div class="img-box">
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -394,8 +394,8 @@
                 </g>
                 </svg>
               </div>
-              <div class="detail-box">
-                <h5>
+              <div class="detail-box px-14">
+                <h5 class="text-xl">
                   Safe and Secure Transactions
                 </h5>
                 <p>
