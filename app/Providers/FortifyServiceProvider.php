@@ -11,7 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Fortify;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -31,10 +35,21 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);  
+        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+
+        // Event listener untuk login
+        // Event::listen(Login::class, function ($event) {
+        //     $user = $event->user;
+
+        //     if ($user->usertype === 'admin') {
+        //         return redirect()->route('admin.home'); // Admin ke halaman admin
+        //     }
+
+        //     return redirect()->route('user.home'); // User ke halaman user
+        // });
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });
@@ -42,6 +57,5 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
-        
     }
 }

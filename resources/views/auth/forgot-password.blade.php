@@ -1,10 +1,7 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <!-- <x-authentication-card-logo /> -->
-             <a href="/">
-                <img src="images/android-chrome-512x512.png" alt="" class="w-16 h-16">
-             </a>
+            <x-authentication-card-logo />
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
