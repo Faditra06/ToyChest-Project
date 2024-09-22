@@ -525,7 +525,7 @@ a:focus {
 .contact_section button {
   display: inline-block;
   padding: 12px 45px;
-  background-color: #3fc1c9;
+  background-color: #203247;
   color: #ffffff;
   border-radius: 0;
   transition: all 0.3s;
@@ -535,7 +535,7 @@ a:focus {
   margin: 35px auto 0 auto;
 }
 .contact_section button:hover {
-  background-color: #298c92;
+  background-color: #080d12;
 }
 .contact_section .map_container {
   height: 100%;

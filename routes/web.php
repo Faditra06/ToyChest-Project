@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\DetailController;
+use App\Http\Controllers\CheckoutController;
 
 
 Route::get('/', function () {
@@ -25,15 +27,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/home', [HomeController::class, 'index'])->name('admin.home');
 });
 
-// route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'redirect.user'])->group(function () {
-//     Route::get('/user/home', [HomeController::class, 'index'])->name('user.home');
-//     Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
-//     Route::get('/dashboard', function () {
-//         return view('dashboard');
-//     })->name('dashboard');
-// });
-// Route::get('/user/home', [HomeController::class, 'index'])->name('user.home');
-// Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
-// Route::get('/test', function () {
-//     return 'Test Route';
-// });
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::get('/detail', [DetailController::class, 'index'])->name('detail');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');

@@ -15,16 +15,16 @@
                     <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-2">
                         Home
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-2">
+                    <x-nav-link href="#about" class="text-white uppercase mx-2">
                         About
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-2">
+                    <x-nav-link href="{{ route('shop') }}" class="text-white uppercase mx-2">
                         Shop
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-1">
+                    <x-nav-link href="{{ route('contact') }}" class="text-white uppercase mx-1">
                         Contact
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase ms-2">
+                    <x-nav-link href="{{ route('cart') }}" class="text-white uppercase ms-2">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                     </x-nav-link>
                     <form class="form-inline">
