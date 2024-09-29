@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center ps-14 pb-1 pt-3">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')">
                         <img src="{{ asset('images/c3fd4904-5e2a-44ca-920e-0366a805ef65-transformed-removebg-preview.png') }}" alt="Logo" class="w-1/4">
                     </a>
                 </div>
