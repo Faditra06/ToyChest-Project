@@ -273,8 +273,12 @@ a:focus {
 }
 .slider_section .img-box img {
   width: 100%;
-  animation: upDown 5s infinite;
+  /* Hapus atau komentari baris animasi berikut */
+  /* animation: upDown 5s infinite; */
 }
+
+/* Anda juga bisa menghapus atau komentari seluruh keyframes upDown */
+/*
 @keyframes upDown {
   0% {
     transform: translateY(-45px);
@@ -286,6 +290,7 @@ a:focus {
     transform: translateY(-45px);
   }
 }
+*/
 .slider_section .carousel-indicators {
   position: unset;
   margin: 0;
