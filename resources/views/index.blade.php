@@ -57,26 +57,26 @@
             <span class=""></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="collapse navbar-collapse sm:-my-px sm:ms-44 sm:flex" id="navbarSupportedContent">
             <ul class="navbar-nav  ">
-              <li class="nav-item ">
-                <a class="nav-link" href="index.html">Home </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#about"> About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="shop.html">Shop</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link me-2" href="contact.html">Contact</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="keranjang.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-              </li>
+              <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-2">
+                Home
+              </x-nav-link>
+              <x-nav-link href="#about" class="text-white uppercase mx-2">
+                About
+              </x-nav-link>
+              <x-nav-link href="{{ route('shop') }}" class="text-white uppercase mx-2">
+                Shop
+              </x-nav-link>
+              <x-nav-link href="{{ route('contact') }}" class="text-white uppercase mx-1">
+                Contact
+              </x-nav-link>
+              <x-nav-link href="{{ route('cart') }}" class="text-white uppercase ms-2">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+              </x-nav-link>
               <form class="form-inline">
                 <button class="btn mx-2 my-2 my-sm-0 nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <i class="fa fa-search text-white" aria-hidden="true"></i>
                 </button>
               </form>
               <li class="nav-item">
@@ -106,7 +106,7 @@
                       ages.
                     </p>
                     <div class="btn-box">
-                      <a href="shop.html" class="btn1 rounded-pill">
+                      <a href="{{ route('shop') }}" class="btn1 rounded-pill">
                         Shop Now
                       </a>
                     </div>
@@ -505,7 +505,7 @@
           <div class="box">
             <a href="">
               <div class="img-box">
-                <img src="images/p1.png" alt="">
+                <img src="images/p1.jpg" alt="">
               </div>
               <div class="detail-box">
                 <a href="">
@@ -522,7 +522,7 @@
           <div class="box">
             <a href="">
               <div class="img-box">
-                <img src="images/p2.png" alt="">
+                <img src="images/p2.jpg" alt="">
               </div>
               <div class="detail-box">
                 <a href="">
@@ -539,7 +539,7 @@
           <div class="box">
             <a href="">
               <div class="img-box">
-                <img src="images/p3.png" alt="">
+                <img src="images/p3.jpg" alt="">
               </div>
               <div class="detail-box">
                 <a href="">
@@ -556,7 +556,7 @@
           <div class="box">
             <a href="">
               <div class="img-box">
-                <img src="images/p4.png" alt="">
+                <img src="images/p4.jpg" alt="">
               </div>
               <div class="detail-box">
                 <a href="">
@@ -573,7 +573,7 @@
           <div class="box">
             <a href="">
               <div class="img-box">
-                <img src="images/p5.png" alt="">
+                <img src="images/p5.jpg" alt="">
               </div>
               <div class="detail-box">
                 <a href="">
@@ -590,7 +590,7 @@
           <div class="box">
             <a href="">
               <div class="img-box">
-                <img src="images/p6.png" alt="">
+                <img src="images/p6.jpg" alt="">
               </div>
               <div class="detail-box">
                 <a href="">
@@ -607,7 +607,7 @@
           <div class="box">
             <a href="">
               <div class="img-box">
-                <img src="images/p7.png" alt="">
+                <img src="images/p7.jpg" alt="">
               </div>
               <div class="detail-box">
                 <a href="">
@@ -624,7 +624,7 @@
           <div class="box">
             <a href="">
               <div class="img-box">
-                <img src="images/p8.png" alt="">
+                <img src="images/p8.jpg" alt="">
               </div>
               <div class="detail-box">
                 <a href="">
@@ -879,7 +879,7 @@
   <!-- popper js -->
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
+  </script>
   <!-- bootstrap js -->
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <!-- owl slider -->

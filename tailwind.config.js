@@ -20,6 +20,7 @@ export default {
             },
             colors: {
                 toychest1: '#3fc1c9',
+                toychest1_subtle: '#a1cccf',
                 toychest2: '#203247',
                 toychest3: '#080d12',
             }

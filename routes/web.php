@@ -7,7 +7,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('index');
@@ -32,3 +33,8 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('/detail', [DetailController::class, 'index'])->name('detail');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+
+Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+Route::delete('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'destroy'])->name('admin.users.delete');
+Route::resource('categories', CategoryController::class);
+
