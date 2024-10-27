@@ -46,7 +46,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.users') }}" aria-expanded="false">
+                        <a class="sidebar-link" href="{{ route('admin.category') }}" aria-expanded="false">
                             <i class="ti ti-category-2"></i>
                             <span class="hide-menu">Category</span>
                         </a>

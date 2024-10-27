@@ -20,7 +20,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('admin.home');
     })->name('dashboard');
 });
 
@@ -37,4 +37,6 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
 Route::delete('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'destroy'])->name('admin.users.delete');
 Route::resource('categories', CategoryController::class);
+
+Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
 

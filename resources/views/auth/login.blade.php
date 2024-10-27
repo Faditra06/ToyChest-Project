@@ -18,7 +18,7 @@
     @endsession
     <div class="login items-center justify-center h-screen place-content-center grid">
         <div class="place-content-center grid border border-black rounded-3xl px-10 shadow-xl">
-            <a href="index.html" class="mx-auto mb-3">
+            <a href="{{ url('/') }}" class="mx-auto mb-3">
                 <img src="images/ToyChest.svg" alt="" class="max-w-28 fill-toychest2" />
             </a>
             <h1 class="text-3xl mx-auto font-semibold text-toychest2 mb-6">Sign In</h1>

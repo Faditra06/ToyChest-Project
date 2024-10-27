@@ -47,7 +47,7 @@
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="{{ url('/') }}">
             <img src="images/c3fd4904-5e2a-44ca-920e-0366a805ef65-transformed-removebg-preview.png" alt="logo"
               class="w-25">
           </a>
@@ -59,7 +59,7 @@
 
           <div class="collapse navbar-collapse sm:-my-px sm:ms-44 sm:flex" id="navbarSupportedContent">
             <ul class="navbar-nav  ">
-              <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-2">
+              <x-nav-link href="{{ url('/') }}" class="text-white uppercase mx-2">
                 Home
               </x-nav-link>
               <x-nav-link href="#about" class="text-white uppercase mx-2">
@@ -80,7 +80,10 @@
                 </button>
               </form>
               <li class="nav-item">
-                <a class="nav-link bg-secondary px-4 rounded-pill" href="{{ route('login') }}">Login</a>
+                <a class="nav-link bg-transparent py-2 !fw-thin px-3 rounded-pill" href="{{ route('login') }}">Log in</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link bg-secondary py-2 px-3 rounded-pill" href="{{ route('register') }}">Sign up</a>
               </li>
             </ul>
           </div>
