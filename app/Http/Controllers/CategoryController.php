@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -25,14 +26,22 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:categories,name',
-            'slug' => 'required|unique:categories,slug',
+            'name' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:categories,id'
         ]);
 
-        Category::create($request->all());
+        // Membuat slug dari nama kategori
+        $slug = Str::slug($request->name);
 
-        return redirect()->route('admin.manage-category')->with('success', 'Category succesfully added');
+        Category::create([
+            'name' => $request->name,
+            'slug' => $slug, // Tambahkan slug
+            'parent_id' => $request->parent_id
+        ]);
+
+        return redirect()->back()->with('success', 'Category added successfully.');
     }
+
 
     // Menampilkan form untuk mengedit kategori
     public function edit(Category $category)
@@ -42,23 +51,33 @@ class CategoryController extends Controller
     }
 
     // Mengupdate kategori yang dipilih
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
+        $category = Category::findOrFail($id);
+
+        // Validasi input
         $request->validate([
-            'name' => 'required|unique:categories,name,' . $category->id,
-            'slug' => 'required|unique:categories,slug,' . $category->id,
+            'name' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:categories,id'
         ]);
 
-        $category->update($request->all());
+        // Update data kategori
+        $category->name = $request->name;
+        $category->parent_id = $request->parent_id;
+        $category->save();
 
-        return redirect()->route('admin.manage-category')->with('success', 'Category succesfully updated');
+        return redirect()->back()->with('success', 'Category updated successfully.');
     }
 
-    // Menghapus kategori
-    public function destroy(Category $category)
-    {
-        $category->delete();
 
-        return redirect()->route('admin.manage-category')->with('success', 'Category succesfully deleted');
+    // Menghapus kategori
+    public function destroy($id)
+    {
+        $category = Category::find($id);
+        if ($category) {
+            $category->delete();
+            return redirect()->back()->with('success', 'Category deleted successfully');
+        }
+        return redirect()->back()->with('error', 'Category not found');
     }
 }

@@ -39,4 +39,10 @@ Route::delete('/admin/users/{user}', [App\Http\Controllers\AdminController::clas
 Route::resource('categories', CategoryController::class);
 
 Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
+Route::delete('/admin/category/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('admin.categories.delete');
+Route::put('/admin/categories/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+
+
+
 

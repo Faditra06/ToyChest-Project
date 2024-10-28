@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->text('description')->nullable();
-            $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');  // Mendukung subkategori
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
         });
+        
     }
 
     /**
