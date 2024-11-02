@@ -11,8 +11,7 @@
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <link rel="shortcut icon" href="images/favicon.ico" type="">
-
+  <link rel="icon" href="images/ToyChest.svg">
   <title> ToyChest </title>
 
   <!-- bootstrap core css -->
@@ -74,11 +73,6 @@
               <x-nav-link href="{{ route('cart') }}" class="text-white uppercase ms-2">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
               </x-nav-link>
-              <form class="form-inline">
-                <button class="btn mx-2 my-2 my-sm-0 nav_search-btn" type="submit">
-                  <i class="fa fa-search text-white" aria-hidden="true"></i>
-                </button>
-              </form>
               <li class="nav-item">
                 <a class="nav-link bg-transparent py-2 !fw-thin px-3 rounded-pill" href="{{ route('login') }}">Log in</a>
               </li>
@@ -506,7 +500,7 @@
       <div class="row">
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="box">
-            <a href="">
+            <a href="{{ route ('detail') }}">
               <div class="img-box">
                 <img src="images/p1.jpg" alt="">
               </div>

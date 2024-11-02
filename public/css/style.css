@@ -347,6 +347,10 @@ a:focus {
   text-transform: uppercase;
 }
 
+.about_section {
+  margin-left: 2.5rem;
+}
+
 .about_section .row {
   align-items: center;
 }

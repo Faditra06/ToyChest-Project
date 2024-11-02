@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ToyChest</title>
-  <link rel="shortcut icon" href="images/favicon.ico" type="">
+  <link rel="icon" href="images/ToyChest.svg">
   <link rel="stylesheet" href="css3/styles.min.css" />
   <link rel="stylesheet" href="css3/custom.css" />
 </head>

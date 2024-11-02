@@ -10,7 +10,8 @@ export default {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
-        './resources/js/**/*.js', // Tambahkan jika perlu
+        './resources/js/**/*.js',
+        './resources/views/admin/.blade.php'
     ],
 
     theme: {

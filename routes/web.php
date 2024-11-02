@@ -9,6 +9,7 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Middleware\RedirectIfGuest;
 
 Route::get('/', function () {
     return view('index');
@@ -28,17 +29,19 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/home', [HomeController::class, 'index'])->name('admin.home');
 });
 
-Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-Route::get('/cart', [CartController::class, 'index'])->name('cart');
-Route::get('/detail', [DetailController::class, 'index'])->name('detail');
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop')->middleware(RedirectIfGuest::class);
+Route::get('/contact', [ContactController::class, 'index'])->name('contact')->middleware(RedirectIfGuest::class);
+Route::get('/cart', [CartController::class, 'index'])->name('cart')->middleware(RedirectIfGuest::class);
+Route::get('/detail', [DetailController::class, 'index'])->name('detail')->middleware(RedirectIfGuest::class);
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware(RedirectIfGuest::class);
 
 Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-Route::delete('/admin/users/{user}', [App\Http\Controllers\AdminController::class, 'destroy'])->name('admin.users.delete');
+Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users.index');
+Route::delete('/admin/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.delete');
 Route::resource('categories', CategoryController::class);
 
 Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
+Route::get('/admin/category', [CategoryController::class, 'ss'])->name('admin.category.ss');
 Route::delete('/admin/category/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('admin.categories.delete');
 Route::put('/admin/categories/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');

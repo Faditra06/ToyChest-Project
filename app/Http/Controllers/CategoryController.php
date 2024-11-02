@@ -80,4 +80,26 @@ class CategoryController extends Controller
         }
         return redirect()->back()->with('error', 'Category not found');
     }
+
+    public function ss(Request $request)
+    {
+        $query = Category::query();
+        // Search by name
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Sort by name
+        if ($request->filled('sort')) {
+            if ($request->sort === 'name_asc') {
+                $query->orderBy('name', 'asc');
+            } elseif ($request->sort === 'name_desc') {
+                $query->orderBy('name', 'desc');
+            }
+        }
+
+        $categories = $query->paginate(10)->appends(request()->query());
+
+        return view('admin.manage-category', compact('categories'));
+    }
 }
