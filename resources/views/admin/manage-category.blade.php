@@ -29,7 +29,7 @@
           <div class="card">
             <div class="card-body">
               <h4 class="card-title fw-semibold mb-4">Categories</h4>
-              <div class="mb-4 flex justify-between">
+              <div class="mb-1 flex justify-between">
                 <!-- Add Category Button -->
                 <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
                   <i class="ti ti-circle-plus"></i> Add Category
@@ -122,7 +122,7 @@
                   </div>
                   @empty
                   <tr>
-                    <td colspan="4" class="text-center">No users found</td>
+                    <td colspan="4" class="text-center">No categories found</td>
                   </tr>
                   @endforelse
                 </tbody>
@@ -165,6 +165,12 @@
     </div>
   </div>
 
+  @if(session('success'))
+  <div class="alert alert-success">
+    {{ session('success') }}
+  </div>
+  @endif
+
   <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>
   <script src="{{ asset('libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('js/sidebarmenu.js') }}"></script>
@@ -204,11 +210,5 @@
     });
   </script>
 </body>
-
-@if(session('success'))
-<div class="alert alert-success">
-  {{ session('success') }}
-</div>
-@endif
 
 </html>

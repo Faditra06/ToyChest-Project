@@ -9,6 +9,7 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Middleware\RedirectIfGuest;
 
 Route::get('/', function () {
@@ -38,7 +39,6 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout')-
 Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
 Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users.index');
 Route::delete('/admin/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.delete');
-Route::resource('categories', CategoryController::class);
 
 Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
 Route::get('/admin/category', [CategoryController::class, 'ss'])->name('admin.category.ss');
@@ -46,6 +46,8 @@ Route::delete('/admin/category/{id}', [App\Http\Controllers\CategoryController::
 Route::put('/admin/categories/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 
-
-
-
+Route::get('/products', [ProductController::class, 'index'])->name('admin.product');
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::get('/admin/manage-product/search', [ProductController::class, 'search'])->name('product.search');

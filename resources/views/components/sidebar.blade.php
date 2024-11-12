@@ -1,60 +1,66 @@
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ToyCHest</title>
-    <link rel="shortcut icon" href="images/favicon.ico" type="">
-    <link rel="stylesheet" href="css3/styles.min.css" />
-    <link rel="stylesheet" href="css3/custom.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ToyCHest</title>
+  <link rel="shortcut icon" href="images/favicon.ico" type="">
+  <link rel="stylesheet" href="css3/styles.min.css" />
+  <link rel="stylesheet" href="css3/custom.css" />
 </head>
 
 <body>
-    <aside class="left-sidebar">
-        <!-- Sidebar scroll-->
-        <div>
-            <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="{{ route('admin.home') }}" class="text-nowrap logo-img">
-                    <img src="images/ToyChest (500 x 100 piksel) (300 x 100 piksel) (1).svg" alt="" style="max-width: 11rem;" />
-                </a>
-                <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                    <i class="ti ti-x fs-8"></i>
-                </div>
-            </div>
-            <!-- Sidebar navigation-->
-            <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-                <ul id="sidebarnav">
-                    <li class="nav-small-cap">
-                        <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
-                        <span class="hide-menu">Home</span>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.home') }}" aria-expanded="false">
-                            <i class="ti ti-home"></i>
-                            <span class="hide-menu">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <span class="sidebar-divider lg"></span>
-                    </li>
-                    <li class="nav-small-cap">
-                        <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
-                        <span class="hide-menu">Manage</span>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.users') }}" aria-expanded="false">
-                            <i class="ti ti-users"></i>
-                            <span class="hide-menu">Users</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.category') }}" aria-expanded="false">
-                            <i class="ti ti-category-2"></i>
-                            <span class="hide-menu">Category</span>
-                        </a>
-                    </li>
-                    <li>
-                        <span class="sidebar-divider lg"></span>
-                    </li>
-                    <!-- <li class="sidebar-item">
+  <aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div>
+      <div class="brand-logo d-flex align-items-center justify-content-between">
+        <a href="{{ route('admin.home') }}" class="text-nowrap logo-img">
+          <img src="images/ToyChest (500 x 100 piksel) (300 x 100 piksel) (1).svg" alt="" style="max-width: 11rem;" />
+        </a>
+        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+          <i class="ti ti-x fs-8"></i>
+        </div>
+      </div>
+      <!-- Sidebar navigation-->
+      <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+        <ul id="sidebarnav">
+          <li class="nav-small-cap">
+            <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
+            <span class="hide-menu">Home</span>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="{{ route('admin.home') }}" aria-expanded="false">
+              <i class="ti ti-home"></i>
+              <span class="hide-menu">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <span class="sidebar-divider lg"></span>
+          </li>
+          <li class="nav-small-cap">
+            <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
+            <span class="hide-menu">Manage</span>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="{{ route('admin.users') }}" aria-expanded="false">
+              <i class="ti ti-users"></i>
+              <span class="hide-menu">Users</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="{{ route('admin.category') }}" aria-expanded="false">
+              <i class="ti ti-category-2"></i>
+              <span class="hide-menu">Category</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="{{ route('admin.product') }}" aria-expanded="false">
+              <i class="ti ti-brand-superhuman"></i>
+              <span class="hide-menu">Products</span>
+            </a>
+          </li>
+          <li>
+            <span class="sidebar-divider lg"></span>
+          </li>
+          <!-- <li class="sidebar-item">
               <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
                 <iconify-icon icon="solar:danger-circle-line-duotone"></iconify-icon>
                 <span class="hide-menu">Alerts</span>
@@ -128,9 +134,9 @@
               <img src="images/backgrounds/rupee.png" alt="" class="img-fluid">
             </div>
           </div> -->
-            </nav>
-            <!-- End Sidebar navigation -->
-        </div>
-        <!-- End Sidebar scroll-->
-    </aside>
+      </nav>
+      <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+  </aside>
 </body>
