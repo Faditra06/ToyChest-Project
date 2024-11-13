@@ -15,11 +15,17 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all(); // Ambil semua produk dari database
+        $products = Product::paginate(10); // Tampilkan 10 produk per halaman
         $categories = Category::all(); // Ambil semua kategori
         return view('admin.manage-product', compact('products', 'categories'));
     }
 
+    public function guestindex(Request $request)
+    {
+        $products = Product::all(); // Ambil semua produk dari database
+        $randomProducts = Product::inRandomOrder()->limit(8)->get();
+        return view('index', compact('randomProducts')); // Pastikan 'products' dikirim ke view
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -35,29 +41,29 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
-            'category_id' => 'required|exists:categories,id', // Validasi kategori
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        $product = new Product;
+        $product = new Product();
         $product->name = $request->name;
-        $product->price = $request->price;
-        $product->stock = $request->stock;
         $product->category_id = $request->category_id;
         $product->description = $request->description;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
+            $imagePath = $request->file('image')->store('products', 'public');
             $product->image = $imagePath;
         }
+
         $product->save();
 
-        return redirect()->route('admin.product')->with('success', 'Product added successfully');
+        return redirect()->back()->with('success', 'Product added successfully!');
     }
-
 
     /**
      * Display the specified resource.
@@ -130,38 +136,31 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-        $query = Product::query();
+        $search = $request->input('search');
+        $sortBy = $request->input('sort_by');
 
-        // Search by name, description, or category name
-        if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+        $products = Product::query();
+
+        // Menambahkan logika search
+        if ($search) {
+            $products->where('name', 'like', '%' . $search . '%');
         }
 
-        // Sort by name
-        if ($request->filled('sort')) {
-            switch ($request->sort) {
-                case 'newest':
-                    $query->orderBy('created_at', 'desc');
-                    break;
-                case 'oldest':
-                    $query->orderBy('created_at', 'asc');
-                    break;
-                case 'name_asc':
-                    $query->orderBy('name', 'asc');
-                    break;
-                case 'name_desc':
-                    $query->orderBy('name', 'desc');
-                    break;
-            }
+        // Logika sorting berdasarkan parameter `sort_by`
+        if ($sortBy === 'newest') {
+            $products->orderBy('created_at', 'desc');
+        } elseif ($sortBy === 'oldest') {
+            $products->orderBy('created_at', 'asc');
+        } elseif ($sortBy === 'name_asc') {
+            $products->orderBy('name', 'asc');
+        } elseif ($sortBy === 'name_desc') {
+            $products->orderBy('name', 'desc');
         }
 
-        // Fetch categories to display in the form
-        $categories = Category::all(); // Get all categories for the dropdown
+        // Menambahkan kategori ke dalam view
+        $categories = Category::all();
+        $products = $products->paginate(10)->appends(request()->query());
 
-        // Paginate the products
-        $products = $query->paginate(10)->appends(request()->query());
-
-        // Return to view with products and categories
         return view('admin.manage-product', compact('products', 'categories'));
     }
 }

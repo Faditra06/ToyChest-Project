@@ -51,3 +51,5 @@ Route::post('/products', [ProductController::class, 'store'])->name('products.st
 Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('products.update');
 Route::get('/admin/manage-product/search', [ProductController::class, 'search'])->name('product.search');
+
+Route::get('/', [ProductController::class, 'guestindex'])->name('products.index');

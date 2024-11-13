@@ -27,6 +27,11 @@
       <!--  Header End -->
       <div class="body-wrapper-inner">
         <div class="container-fluid">
+          @if(session('success'))
+          <div class="alert alert-success">
+            {{ session('success') }}
+          </div>
+          @endif
           <div class="card">
             <div class="card-body">
               <h4 class="card-title fw-semibold mb-4">Users</h4>
@@ -39,9 +44,9 @@
                   </button>
                 </form>
                 <!-- Form Sort By menggunakan Tailwind CSS -->
-                <form action="{{ route('admin.users.index') }}" method="GET" class="relative inline-block">
+                <form action="{{ route('admin.users.index') }}" method="GET" class="relative inline-block" id="sortForm">
                   <div class="relative inline-block text-left">
-                    <button id="sortByButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
+                    <button type="button" id="sortByButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
                       Sort By ▼
                     </button>
                     <ul id="sortByDropdown" class="absolute hidden text-gray-700 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
@@ -50,6 +55,7 @@
                       <li><a href="#" data-sort="name_asc" class="block px-4 py-2 hover:bg-gray-200">Name A-Z</a></li>
                       <li><a href="#" data-sort="name_desc" class="block px-4 py-2 hover:bg-gray-200">Name Z-A</a></li>
                     </ul>
+                  </div>
                 </form>
               </div>
             </div>
@@ -90,8 +96,11 @@
                   @endforelse
                 </tbody>
               </table>
+              <!-- Kontrol pagination -->
+              <div class="pagination mt-4 mb-3 flex justify-center">
+                {{ $users->links() }}
+              </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -107,33 +116,32 @@
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
   <!-- dropdown -->
   <script>
+    // Ambil elemen dropdown dan tombol
+    const sortByButton = document.getElementById('sortByButton');
+    const sortByDropdown = document.getElementById('sortByDropdown');
+    const sortForm = document.getElementById('sortForm');
+
     // Toggle dropdown saat tombol diklik
-    document.getElementById('sortByButton').addEventListener('click', function(event) {
-      event.preventDefault();
-      const dropdown = document.getElementById('sortByDropdown');
-      dropdown.classList.toggle('hidden');
+    sortByButton.addEventListener('click', function() {
+      sortByDropdown.classList.toggle('hidden');
     });
 
-    // Event listener untuk setiap opsi dalam dropdown
-    document.querySelectorAll('#sortByDropdown a').forEach(function(element) {
-      element.addEventListener('click', function(event) {
-        event.preventDefault();
-        const sortBy = event.target.getAttribute('data-sort');
+    // Tangani saat pengguna memilih opsi
+    const options = sortByDropdown.querySelectorAll('a');
+    options.forEach(option => {
+      option.addEventListener('click', function(e) {
+        e.preventDefault(); // Mencegah link default behavior
 
-        // Perbarui URL tanpa reload
-        const url = new URL(window.location.href);
-        url.searchParams.set('sort_by', sortBy);
-        window.location.href = url.href;
+        // Ambil nilai dari data-sort
+        const sortValue = this.getAttribute('data-sort');
+
+        // Set input atau parameter query
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set('sort_by', sortValue);
+
+        // Update URL dan submit form
+        window.location.search = searchParams.toString();
       });
-    });
-
-    // Menutup dropdown jika pengguna mengklik di luar dropdown
-    document.addEventListener('click', function(event) {
-      const dropdown = document.getElementById('sortByDropdown');
-      const button = document.getElementById('sortByButton');
-      if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.classList.add('hidden');
-      }
     });
   </script>
 </body>

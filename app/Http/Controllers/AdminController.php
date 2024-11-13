@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     public function users()
     {
-        $users = User::all();
+        $users = User::paginate(10);
         return view('admin.manage-user', compact('users'));
     }
 
@@ -31,23 +31,27 @@ class AdminController extends Controller
         $search = $request->input('search');
         $sortBy = $request->input('sort_by');
 
+        // Mulai query User
         $users = User::query();
 
-        if ($request->filled('search')) {
-            $users->where('name', 'like', '%' . $request->search . '%');
-        }
-        // Logika sorting berdasarkan parameter `sort_by`
-        if ($sortBy === 'newest') {
-            $users = $users->orderBy('created_at', 'desc');
-        } elseif ($sortBy === 'oldest') {
-            $users = $users->orderBy('created_at', 'asc');
-        } elseif ($sortBy === 'name_asc') {
-            $users = $users->orderBy('name', 'asc');
-        } elseif ($sortBy === 'name_desc') {
-            $users = $users->orderBy('name', 'desc');
+        // Filter berdasarkan pencarian nama
+        if ($search) {
+            $users->where('name', 'like', '%' . $search . '%');
         }
 
-        $users = $users->paginate(10)->appends(request()->query());
+        // Logika sorting berdasarkan parameter `sort_by`
+        if ($sortBy === 'newest') {
+            $users->orderBy('created_at', 'desc');
+        } elseif ($sortBy === 'oldest') {
+            $users->orderBy('created_at', 'asc');
+        } elseif ($sortBy === 'name_asc') {
+            $users->orderBy('name', 'asc');
+        } elseif ($sortBy === 'name_desc') {
+            $users->orderBy('name', 'desc');
+        }
+
+        // Paginate dan append query string agar tetap ada di URL
+        $users = $users->paginate(10)->appends($request->query());
 
         return view('admin.manage-user', compact('users'));
     }

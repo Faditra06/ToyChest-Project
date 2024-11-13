@@ -11,7 +11,7 @@ class CategoryController extends Controller
     // Menampilkan daftar kategori
     public function index()
     {
-        $categories = Category::with('children')->get();
+        $categories = Category::with('children')->paginate(10); // Tentukan jumlah per halaman, misalnya 10
         return view('admin.manage-category', compact('categories'));
     }
 
@@ -83,22 +83,28 @@ class CategoryController extends Controller
 
     public function ss(Request $request)
     {
-        $query = Category::query();
-        // Search by name
-        if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+        $search = $request->input('search');
+        $sortBy = $request->input('sort_by');
+
+        $categories = Category::query();
+
+        // Menambahkan logika search
+        if ($search) {
+            $categories->where('name', 'like', '%' . $search . '%');
         }
 
-        // Sort by name
-        if ($request->filled('sort')) {
-            if ($request->sort === 'name_asc') {
-                $query->orderBy('name', 'asc');
-            } elseif ($request->sort === 'name_desc') {
-                $query->orderBy('name', 'desc');
-            }
+        // Logika sorting berdasarkan parameter `sort_by`
+        if ($sortBy === 'newest') {
+            $categories->orderBy('created_at', 'desc');
+        } elseif ($sortBy === 'oldest') {
+            $categories->orderBy('created_at', 'asc');
+        } elseif ($sortBy === 'name_asc') {
+            $categories->orderBy('name', 'asc');
+        } elseif ($sortBy === 'name_desc') {
+            $categories->orderBy('name', 'desc');
         }
 
-        $categories = $query->paginate(10)->appends(request()->query());
+        $categories = $categories->paginate(10)->appends(request()->query());
 
         return view('admin.manage-category', compact('categories'));
     }

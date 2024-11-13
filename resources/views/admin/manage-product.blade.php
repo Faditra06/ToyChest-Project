@@ -26,12 +26,17 @@
             <!-- Header End -->
             <div class="body-wrapper-inner">
                 <div class="container-fluid">
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title fw-semibold mb-4">Products</h4>
                             <div class="mb-1 flex justify-between">
                                 <!-- Add Category Button -->
-                                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addProductModal">
                                     <i class="ti ti-circle-plus"></i> Add Product
                                 </button>
                                 <!-- Form Search -->
@@ -43,19 +48,20 @@
                                 </form>
                                 <!-- Form Sort By menggunakan Tailwind CSS -->
                                 <form action="{{ route('product.search') }}" method="GET" class="relative inline-block">
-                                    <div class="relative inline-block text-left">
-                                        <button type="button" id="sortByButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
-                                            Sort By ▼
-                                        </button>
-                                        <ul id="sortByDropdown" class="absolute hidden text-gray-700 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
-                                            <li><a href="{{ route('product.search', ['sort' => 'newest']) }}" class="block px-4 py-2 hover:bg-gray-200">Newest</a></li>
-                                            <li><a href="{{ route('product.search', ['sort' => 'oldest']) }}" class="block px-4 py-2 hover:bg-gray-200">Oldest</a></li>
-                                            <li><a href="{{ route('product.search', ['sort' => 'name_asc']) }}" class="block px-4 py-2 hover:bg-gray-200">Name A-Z</a></li>
-                                            <li><a href="{{ route('product.search', ['sort' => 'name_desc']) }}" class="block px-4 py-2 hover:bg-gray-200">Name Z-A</a></li>
-                                        </ul>
-                                    </div>
-                                </form>
+                                    <!-- Tombol untuk membuka dropdown -->
+                                    <button id="sortByProductButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
+                                        Sort By ▼
+                                    </button>
 
+                                    <!-- Dropdown opsi sortir produk -->
+                                    <ul id="sortByProductDropdown" class="absolute hidden text-gray-700 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                                        <li><a href="#" data-sort="newest" class="block px-4 py-2 hover:bg-gray-200">Newest</a></li>
+                                        <li><a href="#" data-sort="oldest" class="block px-4 py-2 hover:bg-gray-200">Oldest</a></li>
+                                        <li><a href="#" data-sort="name_asc" class="block px-4 py-2 hover:bg-gray-200">Name A-Z</a></li>
+                                        <li><a href="#" data-sort="name_desc" class="block px-4 py-2 hover:bg-gray-200">Name Z-A</a></li>
+                                    </ul>
+
+                                </form>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -86,11 +92,11 @@
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->category ? $product->category->name : 'No Category' }}</td>
                                         <td>{{ $product->description }}</td>
-                                        <td>${{ number_format($product->price, 2) }}</td>
+                                        <td>Rp{{ number_format($product->price, 2) }}</td>
                                         <td>{{ $product->stock }}</td>
                                         <td>
                                             <!-- Edit Button triggers modal -->
-                                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal{{ $product->id }}">
+                                            <button type="button" class="btn btn-warning btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#editProductModal{{ $product->id }}">
                                                 Edit
                                             </button>
 
@@ -157,7 +163,10 @@
                                     @endforelse
                                 </tbody>
                             </table>
-
+                            <!-- Kontrol pagination -->
+                            <div class="pagination mt-4 mb-3 flex justify-center">
+                                {{ $products->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -222,7 +231,6 @@
         </div>
     </div>
 
-
     <script src="{{ asset('libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/sidebarmenu.js') }}"></script>
@@ -233,28 +241,30 @@
     <!-- dropdown -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const sortByButton = document.getElementById('sortByButton');
-            const sortByDropdown = document.getElementById('sortByDropdown');
+            // Menangani dropdown untuk produk
+            const sortByProductButton = document.getElementById('sortByProductButton');
+            const sortByProductDropdown = document.getElementById('sortByProductDropdown');
 
-            // Toggle dropdown ketika tombol di klik
-            sortByButton.addEventListener('click', function() {
-                sortByDropdown.classList.toggle('hidden');
+            // Mencegah langsung submit saat tombol dropdown diklik
+            sortByProductButton.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevents the form submission or immediate redirect
+                sortByProductDropdown.classList.toggle('hidden'); // Toggle the dropdown visibility
             });
 
-            // Untuk menutup dropdown jika area luar diklik
-            window.addEventListener('click', function(event) {
-                if (!sortByButton.contains(event.target) && !sortByDropdown.contains(event.target)) {
-                    sortByDropdown.classList.add('hidden');
-                }
+            // Tangani klik pada setiap opsi di dropdown produk
+            const productOptions = sortByProductDropdown.querySelectorAll('a');
+            productOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent default behavior
+                    const sortValue = this.getAttribute('data-sort'); // Ambil nilai sortir dari data-sort
+                    const searchParams = new URLSearchParams(window.location.search);
+                    searchParams.set('sort_by', sortValue); // Update query string dengan sort_by
+                    window.location.search = searchParams.toString(); // Reload halaman dengan query baru
+                });
             });
         });
     </script>
-</body>
 
-@if(session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
+</body>
 
 </html>

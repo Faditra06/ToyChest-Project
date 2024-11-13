@@ -26,6 +26,11 @@
       <!-- Header End -->
       <div class="body-wrapper-inner">
         <div class="container-fluid">
+          @if(session('success'))
+          <div class="alert alert-success">
+            {{ session('success') }}
+          </div>
+          @endif
           <div class="card">
             <div class="card-body">
               <h4 class="card-title fw-semibold mb-4">Categories</h4>
@@ -42,18 +47,20 @@
                   </button>
                 </form>
                 <!-- Form Sort By menggunakan Tailwind CSS -->
-                <form action="{{ route('admin.category.ss') }}" method="GET" class="relative inline-block">
+                <form action="{{ route('admin.category.ss') }}" method="GET" class="relative inline-block" id="categorySortForm">
                   <div class="relative inline-block text-left">
-                    <button id="sortByButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
+                    <button type="button" id="sortByCategoryButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
                       Sort By ▼
                     </button>
-                    <ul id="sortByDropdown" class="absolute hidden text-gray-700 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                    <ul id="sortByCategoryDropdown" class="absolute hidden text-gray-700 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
                       <li><a href="#" data-sort="newest" class="block px-4 py-2 hover:bg-gray-200">Newest</a></li>
                       <li><a href="#" data-sort="oldest" class="block px-4 py-2 hover:bg-gray-200">Oldest</a></li>
                       <li><a href="#" data-sort="name_asc" class="block px-4 py-2 hover:bg-gray-200">Name A-Z</a></li>
                       <li><a href="#" data-sort="name_desc" class="block px-4 py-2 hover:bg-gray-200">Name Z-A</a></li>
                     </ul>
+                  </div>
                 </form>
+
               </div>
             </div>
             <div class="table-responsive">
@@ -127,6 +134,10 @@
                   @endforelse
                 </tbody>
               </table>
+              <!-- Kontrol pagination -->
+              <div class="pagination mt-4 mb-3 flex justify-center">
+                {{ $categories->links() }}
+              </div>
             </div>
           </div>
         </div>
@@ -180,33 +191,26 @@
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
   <!-- dropdown -->
   <script>
-    // Toggle dropdown saat tombol diklik
-    document.getElementById('sortByButton').addEventListener('click', function(event) {
-      event.preventDefault();
-      const dropdown = document.getElementById('sortByDropdown');
-      dropdown.classList.toggle('hidden');
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+      // Menangani dropdown untuk kategori
+      const sortByCategoryButton = document.getElementById('sortByCategoryButton');
+      const sortByCategoryDropdown = document.getElementById('sortByCategoryDropdown');
+      const categorySortForm = document.getElementById('categorySortForm');
 
-    // Event listener untuk setiap opsi dalam dropdown
-    document.querySelectorAll('#sortByDropdown a').forEach(function(element) {
-      element.addEventListener('click', function(event) {
-        event.preventDefault();
-        const sortBy = event.target.getAttribute('data-sort');
-
-        // Perbarui URL tanpa reload
-        const url = new URL(window.location.href);
-        url.searchParams.set('sort_by', sortBy);
-        window.location.href = url.href;
+      sortByCategoryButton.addEventListener('click', function() {
+        sortByCategoryDropdown.classList.toggle('hidden');
       });
-    });
 
-    // Menutup dropdown jika pengguna mengklik di luar dropdown
-    document.addEventListener('click', function(event) {
-      const dropdown = document.getElementById('sortByDropdown');
-      const button = document.getElementById('sortByButton');
-      if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.classList.add('hidden');
-      }
+      const categoryOptions = sortByCategoryDropdown.querySelectorAll('a');
+      categoryOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+          e.preventDefault();
+          const sortValue = this.getAttribute('data-sort');
+          const searchParams = new URLSearchParams(window.location.search);
+          searchParams.set('sort_by', sortValue);
+          window.location.search = searchParams.toString();
+        });
+      });
     });
   </script>
 </body>
