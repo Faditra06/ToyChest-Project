@@ -7,6 +7,12 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
+    // Di AdminController.php
+    public function home()
+    {
+        return view('admin.home');
+    }
+
     public function users()
     {
         $users = User::paginate(10);

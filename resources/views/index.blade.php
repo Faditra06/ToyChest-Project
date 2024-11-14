@@ -494,7 +494,7 @@
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          New Arrivals
+          Our Products
         </h2>
       </div>
       <!-- resources/views/user/products/index.blade.php -->
@@ -520,7 +520,7 @@
         @endforeach
       </div>
       <div class="btn-box">
-        <a href="" class="rounded-pill">
+        <a href="{{ route('shop') }}" class="rounded-pill">
           View All Products
         </a>
       </div>

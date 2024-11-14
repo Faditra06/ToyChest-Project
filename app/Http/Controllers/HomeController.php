@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Log; 
+
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,11 +10,14 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Cek apakah user tipe admin
         if (Auth::user()->usertype === 'admin') {
-            return view('admin.home'); // Mengembalikan tampilan untuk admin
+            return redirect()->route('admin.home'); // Admin ke halaman admin
         } else {
-            return view('user.home'); // Mengembalikan tampilan untuk user
+            return redirect()->route('user.products.index'); // User ke halaman user
         }
+    }
+    public function home()
+    {
+        return view('user.home');
     }
 }

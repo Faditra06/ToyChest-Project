@@ -452,149 +452,32 @@
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          New Arrivals
+          Our Products
         </h2>
       </div>
       <div class="row">
+        @foreach($randomProducts as $product)
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="box">
-            <a href="">
+            <a href="{{ route('detail', ['id' => $product->id]) }}">
               <div class="img-box">
-                <img src="images/p1.jpg" alt="">
+                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
               </div>
               <div class="detail-box">
-                <a href="">
-                  Toy for kids
+                <a href="{{ route('detail', ['id' => $product->id]) }}">
+                  {{ $product->name }}
                 </a>
                 <h6>
-                  Rp 50.000,-
+                  Rp {{ number_format($product->price, 0, ',', '.') }}
                 </h6>
               </div>
             </a>
           </div>
         </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-          <div class="box">
-            <a href="">
-              <div class="img-box">
-                <img src="images/p2.jpg" alt="">
-              </div>
-              <div class="detail-box">
-                <a href="">
-                  Toy for kids
-                </a>
-                <h6>
-                  Rp 50.000,-
-                </h6>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-          <div class="box">
-            <a href="">
-              <div class="img-box">
-                <img src="images/p3.jpg" alt="">
-              </div>
-              <div class="detail-box">
-                <a href="">
-                  Toy for kids
-                </a>
-                <h6>
-                  Rp 50.000,-
-                </h6>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-          <div class="box">
-            <a href="">
-              <div class="img-box">
-                <img src="images/p4.jpg" alt="">
-              </div>
-              <div class="detail-box">
-                <a href="">
-                  Toy for kids
-                </a>
-                <h6>
-                  Rp 50.000,-
-                </h6>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-          <div class="box">
-            <a href="">
-              <div class="img-box">
-                <img src="images/p5.jpg" alt="">
-              </div>
-              <div class="detail-box">
-                <a href="">
-                  Toy for kids
-                </a>
-                <h6>
-                  Rp 50.000,-
-                </h6>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-          <div class="box">
-            <a href="">
-              <div class="img-box">
-                <img src="images/p6.jpg" alt="">
-              </div>
-              <div class="detail-box">
-                <a href="">
-                  Toy for kids
-                </a>
-                <h6>
-                  Rp 50.000,-
-                </h6>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-          <div class="box">
-            <a href="">
-              <div class="img-box">
-                <img src="images/p7.jpg" alt="">
-              </div>
-              <div class="detail-box">
-                <a href="">
-                  Toy for kids
-                </a>
-                <h6>
-                  Rp 50.000,-
-                </h6>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-          <div class="box">
-            <a href="">
-              <div class="img-box">
-                <img src="images/p8.jpg" alt="">
-              </div>
-              <div class="detail-box">
-                <a href="">
-                  Toy for kids
-                </a>
-                <h6>
-                  Rp 50.000,-
-                </h6>
-              </div>
-            </a>
-          </div>
-        </div>
+        @endforeach
       </div>
       <div class="btn-box">
-        <a href="" class="rounded-pill">
+        <a href="{{ route('shop') }}" class="rounded-pill">
           View All Products
         </a>
       </div>

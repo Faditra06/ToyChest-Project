@@ -26,6 +26,13 @@ class ProductController extends Controller
         $randomProducts = Product::inRandomOrder()->limit(8)->get();
         return view('index', compact('randomProducts')); // Pastikan 'products' dikirim ke view
     }
+
+    public function userindex(Request $request)
+    {
+        $products = Product::all(); // Ambil semua produk dari database
+        $randomProducts = Product::inRandomOrder()->limit(8)->get();
+        return view('user.home', compact('randomProducts')); // Pastikan 'products' dikirim ke view
+    }
     /**
      * Show the form for creating a new resource.
      */

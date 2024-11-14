@@ -16,19 +16,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.home');
-    })->name('dashboard');
-});
-
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('admin.home');
-});
+Route::middleware(['auth:sanctum'])->get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop')->middleware(RedirectIfGuest::class);
 Route::get('/contact', [ContactController::class, 'index'])->name('contact')->middleware(RedirectIfGuest::class);
@@ -36,6 +24,9 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart')->middleware(
 Route::get('/detail', [DetailController::class, 'index'])->name('detail')->middleware(RedirectIfGuest::class);
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware(RedirectIfGuest::class);
 
+Route::get('/index', [ProductController::class, 'userindex'])->name('user.products.index');
+
+Route::get('/admin', [AdminController::class, 'home'])->name('admin.home');
 Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
 Route::get('/admin/users', [AdminController::class, 'index'])->name('admin.users.index');
 Route::delete('/admin/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.delete');
