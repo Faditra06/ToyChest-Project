@@ -5,14 +5,14 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center ps-14 pb-1 pt-3">
-                    <a href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')">
+                    <a href="{{ route('home') }}">
                         <img src="{{ asset('images/c3fd4904-5e2a-44ca-920e-0366a805ef65-transformed-removebg-preview.png') }}" alt="Logo" class="w-1/4">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="sm:-my-px sm:flex items-center">
-                    <x-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('dashboard')" class="text-white uppercase mx-2">
+                    <x-nav-link href="{{ route('home') }}" class="text-white uppercase mx-2">
                         Home
                     </x-nav-link>
                     <x-nav-link href="#about" class="text-white uppercase mx-2">

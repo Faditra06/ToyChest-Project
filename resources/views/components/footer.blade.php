@@ -1,27 +1,30 @@
 <head>
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}" />
 
-  <!-- fonts style -->
+  <!-- Fonts style -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
-  <!--owl slider stylesheet -->
+  <!-- Owl slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
-  <!-- font awesome style -->
-  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- Font Awesome style -->
+  <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
 
   <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
+  <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+
+  <!-- Responsive style -->
+  <link href="{{ asset('css/responsive.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('css/logreg_.css') }}" />
+</head>
 </head>
 <!-- info section -->
   
   <section class="info_section layout_padding2">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-lg-3 info_col">
+    <div class="container d-flex justify-content-center">
+      <div class="row ms-20">
+        <div class="col-md-6 col-lg-3 info_col MS-20">
           <div class="info_contact" id="info_contact">
             <h4 class="text-white">
               Address
