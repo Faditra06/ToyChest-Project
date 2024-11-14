@@ -37,25 +37,24 @@
               <h4 class="card-title fw-semibold mb-4">Users</h4>
               <div class="mb-4 flex justify-between">
                 <!-- Form Search -->
-                <form action="{{ route('admin.users.index') }}" method="GET">
+                <form action="{{ route('users.search') }}" method="GET">
                   <input type="text" name="search" class="form-input rounded-full border border-gray-900 focus:ring-primary focus:border-primary px-4 py-2" placeholder="Search by name" value="{{ request()->query('search') }}">
                   <button type="submit" class="ml-2 px-4 py-2 bg-toychest2 text-white rounded-full hover:bg-toychest3 focus:outline-none focus:ring-2 focus:ring-toychest3">
                     Search
                   </button>
                 </form>
                 <!-- Form Sort By menggunakan Tailwind CSS -->
-                <form action="{{ route('admin.users.index') }}" method="GET" class="relative inline-block" id="sortForm">
-                  <div class="relative inline-block text-left">
-                    <button type="button" id="sortByButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
-                      Sort By ▼
-                    </button>
-                    <ul id="sortByDropdown" class="absolute hidden text-gray-700 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
-                      <li><a href="#" data-sort="newest" class="block px-4 py-2 hover:bg-gray-200">Newest</a></li>
-                      <li><a href="#" data-sort="oldest" class="block px-4 py-2 hover:bg-gray-200">Oldest</a></li>
-                      <li><a href="#" data-sort="name_asc" class="block px-4 py-2 hover:bg-gray-200">Name A-Z</a></li>
-                      <li><a href="#" data-sort="name_desc" class="block px-4 py-2 hover:bg-gray-200">Name Z-A</a></li>
-                    </ul>
-                  </div>
+                <form action="{{ route('users.sort') }}" method="GET" class="relative inline-block" id="sortForm">
+                  <input type="hidden" name="sort_by" id="sortByInput">
+                  <button type="button" id="sortByButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
+                    Sort By ▼
+                  </button>
+                  <ul id="sortByDropdown" class="absolute hidden text-gray-700 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                    <li><a href="#" data-sort="newest" class="block px-4 py-2 hover:bg-gray-200">Newest</a></li>
+                    <li><a href="#" data-sort="oldest" class="block px-4 py-2 hover:bg-gray-200">Oldest</a></li>
+                    <li><a href="#" data-sort="name_asc" class="block px-4 py-2 hover:bg-gray-200">Name A-Z</a></li>
+                    <li><a href="#" data-sort="name_desc" class="block px-4 py-2 hover:bg-gray-200">Name Z-A</a></li>
+                  </ul>
                 </form>
               </div>
             </div>
@@ -116,40 +115,31 @@
   <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
   <!-- dropdown -->
   <script>
-    // Ambil elemen dropdown dan tombol
-    const sortByButton = document.getElementById('sortByButton');
-    const sortByDropdown = document.getElementById('sortByDropdown');
-    const sortForm = document.getElementById('sortForm');
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ambil elemen dropdown dan input
+      const dropdownButton = document.getElementById('sortByButton');
+      const dropdown = document.getElementById('sortByDropdown');
+      const sortByInput = document.getElementById('sortByInput');
 
-    // Toggle dropdown saat tombol diklik
-    sortByButton.addEventListener('click', function() {
-      sortByDropdown.classList.toggle('hidden');
-    });
+      // Tampilkan/Hide dropdown saat tombol diklik
+      dropdownButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle('hidden');
+      });
 
-    // Tangani saat pengguna memilih opsi
-    const options = sortByDropdown.querySelectorAll('a');
-    options.forEach(option => {
-      option.addEventListener('click', function(e) {
-        e.preventDefault(); // Mencegah link default behavior
-
-        // Ambil nilai dari data-sort
-        const sortValue = this.getAttribute('data-sort');
-
-        // Set input atau parameter query
-        const searchParams = new URLSearchParams(window.location.search);
-        searchParams.set('sort_by', sortValue);
-
-        // Update URL dan submit form
-        window.location.search = searchParams.toString();
+      // Tangani klik opsi dalam dropdown
+      dropdown.querySelectorAll('a').forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          // Set nilai sort_by dari data-sort dan submit form
+          sortByInput.value = item.getAttribute('data-sort');
+          dropdown.classList.add('hidden');
+          dropdownButton.innerText = `Sort By ${item.innerText} ▼`; // Update tombol
+          dropdown.closest('form').submit(); // Submit form
+        });
       });
     });
   </script>
 </body>
-
-@if(session('success'))
-<div class="alert alert-success">
-  {{ session('success') }}
-</div>
-@endif
 
 </html>

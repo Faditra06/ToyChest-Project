@@ -81,30 +81,39 @@ class CategoryController extends Controller
         return redirect()->back()->with('error', 'Category not found');
     }
 
-    public function ss(Request $request)
+    public function search(Request $request)
     {
         $search = $request->input('search');
-        $sortBy = $request->input('sort_by');
 
-        $categories = Category::query();
+        $query = Category::query();
 
         // Menambahkan logika search
         if ($search) {
-            $categories->where('name', 'like', '%' . $search . '%');
+            $query->where('name', 'like', '%' . $search . '%');
         }
+
+        $categories = $query->paginate(10)->appends(request()->query());
+
+        return view('admin.manage-category', compact('categories',));
+    }
+
+    public function sort(Request $request)
+    {
+        $sortBy = $request->input('sort_by');
+        $query = Category::query();
 
         // Logika sorting berdasarkan parameter `sort_by`
         if ($sortBy === 'newest') {
-            $categories->orderBy('created_at', 'desc');
+            $query->orderBy('created_at', 'desc');
         } elseif ($sortBy === 'oldest') {
-            $categories->orderBy('created_at', 'asc');
+            $query->orderBy('created_at', 'asc');
         } elseif ($sortBy === 'name_asc') {
-            $categories->orderBy('name', 'asc');
+            $query->orderBy('name', 'asc');
         } elseif ($sortBy === 'name_desc') {
-            $categories->orderBy('name', 'desc');
+            $query->orderBy('name', 'desc');
         }
 
-        $categories = $categories->paginate(10)->appends(request()->query());
+        $categories = $query->paginate(10)->appends(request()->query());
 
         return view('admin.manage-category', compact('categories'));
     }

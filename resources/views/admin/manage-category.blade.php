@@ -40,27 +40,25 @@
                   <i class="ti ti-circle-plus"></i> Add Category
                 </button>
                 <!-- Form Search -->
-                <form action="{{ route('admin.category.ss') }}" method="GET">
+                <form action="{{ route('category.search') }}" method="GET">
                   <input type="text" name="search" class="form-input rounded-full border border-gray-900 focus:ring-primary focus:border-primary px-4 py-2" placeholder="Search by name" value="{{ request()->query('search') }}">
                   <button type="submit" class="ml-2 px-4 py-2 bg-toychest2 text-white rounded-full hover:bg-toychest3 focus:outline-none focus:ring-2 focus:ring-toychest3">
                     Search
                   </button>
                 </form>
                 <!-- Form Sort By menggunakan Tailwind CSS -->
-                <form action="{{ route('admin.category.ss') }}" method="GET" class="relative inline-block" id="categorySortForm">
-                  <div class="relative inline-block text-left">
-                    <button type="button" id="sortByCategoryButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
-                      Sort By ▼
-                    </button>
-                    <ul id="sortByCategoryDropdown" class="absolute hidden text-gray-700 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
-                      <li><a href="#" data-sort="newest" class="block px-4 py-2 hover:bg-gray-200">Newest</a></li>
-                      <li><a href="#" data-sort="oldest" class="block px-4 py-2 hover:bg-gray-200">Oldest</a></li>
-                      <li><a href="#" data-sort="name_asc" class="block px-4 py-2 hover:bg-gray-200">Name A-Z</a></li>
-                      <li><a href="#" data-sort="name_desc" class="block px-4 py-2 hover:bg-gray-200">Name Z-A</a></li>
-                    </ul>
-                  </div>
+                <form action="{{ route('category.sort') }}" method="GET" class="relative inline-block" id="categorySortForm">
+                  <input type="hidden" name="sort_by" id="sortByInput">
+                  <button type="button" id="sortByButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
+                    Sort By ▼
+                  </button>
+                  <ul id="sortByDropdown" class="absolute hidden text-gray-700 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+                    <li><a href="#" data-sort="newest" class="block px-4 py-2 hover:bg-gray-200">Newest</a></li>
+                    <li><a href="#" data-sort="oldest" class="block px-4 py-2 hover:bg-gray-200">Oldest</a></li>
+                    <li><a href="#" data-sort="name_asc" class="block px-4 py-2 hover:bg-gray-200">Name A-Z</a></li>
+                    <li><a href="#" data-sort="name_desc" class="block px-4 py-2 hover:bg-gray-200">Name Z-A</a></li>
+                  </ul>
                 </form>
-
               </div>
             </div>
             <div class="table-responsive">
@@ -186,23 +184,26 @@
   <!-- dropdown -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Menangani dropdown untuk kategori
-      const sortByCategoryButton = document.getElementById('sortByCategoryButton');
-      const sortByCategoryDropdown = document.getElementById('sortByCategoryDropdown');
-      const categorySortForm = document.getElementById('categorySortForm');
+      // Ambil elemen dropdown dan input
+      const dropdownButton = document.getElementById('sortByButton');
+      const dropdown = document.getElementById('sortByDropdown');
+      const sortByInput = document.getElementById('sortByInput');
 
-      sortByCategoryButton.addEventListener('click', function() {
-        sortByCategoryDropdown.classList.toggle('hidden');
+      // Tampilkan/Hide dropdown saat tombol diklik
+      dropdownButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle('hidden');
       });
 
-      const categoryOptions = sortByCategoryDropdown.querySelectorAll('a');
-      categoryOptions.forEach(option => {
-        option.addEventListener('click', function(e) {
+      // Tangani klik opsi dalam dropdown
+      dropdown.querySelectorAll('a').forEach(item => {
+        item.addEventListener('click', function(e) {
           e.preventDefault();
-          const sortValue = this.getAttribute('data-sort');
-          const searchParams = new URLSearchParams(window.location.search);
-          searchParams.set('sort_by', sortValue);
-          window.location.search = searchParams.toString();
+          // Set nilai sort_by dari data-sort dan submit form
+          sortByInput.value = item.getAttribute('data-sort');
+          dropdown.classList.add('hidden');
+          dropdownButton.innerText = `Sort By ${item.innerText} ▼`; // Update tombol
+          dropdown.closest('form').submit(); // Submit form
         });
       });
     });

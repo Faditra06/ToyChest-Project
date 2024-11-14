@@ -144,7 +144,6 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
-        $sortBy = $request->input('sort_by');
 
         $products = Product::query();
 
@@ -153,20 +152,31 @@ class ProductController extends Controller
             $products->where('name', 'like', '%' . $search . '%');
         }
 
-        // Logika sorting berdasarkan parameter `sort_by`
-        if ($sortBy === 'newest') {
-            $products->orderBy('created_at', 'desc');
-        } elseif ($sortBy === 'oldest') {
-            $products->orderBy('created_at', 'asc');
-        } elseif ($sortBy === 'name_asc') {
-            $products->orderBy('name', 'asc');
-        } elseif ($sortBy === 'name_desc') {
-            $products->orderBy('name', 'desc');
-        }
-
         // Menambahkan kategori ke dalam view
         $categories = Category::all();
         $products = $products->paginate(10)->appends(request()->query());
+
+        return view('admin.manage-product', compact('products', 'categories'));
+    }
+
+    public function sort(Request $request)
+    {
+        $sortBy = $request->input('sort_by');
+        $query = Product::query();
+        $categories = Category::all();
+
+        // Logika sorting berdasarkan parameter `sort_by`
+        if ($sortBy === 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } elseif ($sortBy === 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        } elseif ($sortBy === 'name_asc') {
+            $query->orderBy('name', 'asc');
+        } elseif ($sortBy === 'name_desc') {
+            $query->orderBy('name', 'desc');
+        }
+
+        $products = $query->paginate(10)->appends(request()->query());
 
         return view('admin.manage-product', compact('products', 'categories'));
     }

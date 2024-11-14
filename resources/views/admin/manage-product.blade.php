@@ -47,9 +47,11 @@
                                     </button>
                                 </form>
                                 <!-- Form Sort By menggunakan Tailwind CSS -->
-                                <form action="{{ route('product.search') }}" method="GET" class="relative inline-block">
+                                <form action="{{ route('product.sort') }}" method="GET" class="relative inline-block">
+                                    <input type="hidden" name="sort_by" id="sortByInput">
+
                                     <!-- Tombol untuk membuka dropdown -->
-                                    <button id="sortByProductButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
+                                    <button type="button" id="sortByProductButton" class="bg-toychest2 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
                                         Sort By ▼
                                     </button>
 
@@ -60,7 +62,6 @@
                                         <li><a href="#" data-sort="name_asc" class="block px-4 py-2 hover:bg-gray-200">Name A-Z</a></li>
                                         <li><a href="#" data-sort="name_desc" class="block px-4 py-2 hover:bg-gray-200">Name Z-A</a></li>
                                     </ul>
-
                                 </form>
                             </div>
                         </div>
@@ -241,30 +242,30 @@
     <!-- dropdown -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Menangani dropdown untuk produk
-            const sortByProductButton = document.getElementById('sortByProductButton');
-            const sortByProductDropdown = document.getElementById('sortByProductDropdown');
+            // Ambil elemen dropdown dan input
+            const dropdownButton = document.getElementById('sortByProductButton');
+            const dropdown = document.getElementById('sortByProductDropdown');
+            const sortByInput = document.getElementById('sortByInput');
 
-            // Mencegah langsung submit saat tombol dropdown diklik
-            sortByProductButton.addEventListener('click', function(e) {
-                e.preventDefault(); // Prevents the form submission or immediate redirect
-                sortByProductDropdown.classList.toggle('hidden'); // Toggle the dropdown visibility
+            // Tampilkan/Hide dropdown saat tombol diklik
+            dropdownButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                dropdown.classList.toggle('hidden');
             });
 
-            // Tangani klik pada setiap opsi di dropdown produk
-            const productOptions = sortByProductDropdown.querySelectorAll('a');
-            productOptions.forEach(option => {
-                option.addEventListener('click', function(e) {
-                    e.preventDefault(); // Prevent default behavior
-                    const sortValue = this.getAttribute('data-sort'); // Ambil nilai sortir dari data-sort
-                    const searchParams = new URLSearchParams(window.location.search);
-                    searchParams.set('sort_by', sortValue); // Update query string dengan sort_by
-                    window.location.search = searchParams.toString(); // Reload halaman dengan query baru
+            // Tangani klik opsi dalam dropdown
+            dropdown.querySelectorAll('a').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Set nilai sort_by dari data-sort dan submit form
+                    sortByInput.value = item.getAttribute('data-sort');
+                    dropdown.classList.add('hidden');
+                    dropdownButton.innerText = `Sort By ${item.innerText} ▼`; // Update tombol
+                    dropdown.closest('form').submit(); // Submit form
                 });
             });
         });
     </script>
-
 </body>
 
 </html>

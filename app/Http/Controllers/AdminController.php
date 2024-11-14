@@ -32,32 +32,39 @@ class AdminController extends Controller
         return redirect()->route('admin.users')->with('success', 'User successfully deleted');
     }
 
-    public function index(Request $request)
+    public function search(Request $request)
     {
         $search = $request->input('search');
-        $sortBy = $request->input('sort_by');
 
-        // Mulai query User
         $users = User::query();
 
-        // Filter berdasarkan pencarian nama
+        // Menambahkan logika search
         if ($search) {
             $users->where('name', 'like', '%' . $search . '%');
         }
 
+        $users = $users->paginate(10)->appends(request()->query());
+
+        return view('admin.manage-user', compact('users',));
+    }
+
+    public function sort(Request $request)
+    {
+        $sortBy = $request->input('sort_by');
+        $query = User::query();
+
         // Logika sorting berdasarkan parameter `sort_by`
         if ($sortBy === 'newest') {
-            $users->orderBy('created_at', 'desc');
+            $query->orderBy('created_at', 'desc');
         } elseif ($sortBy === 'oldest') {
-            $users->orderBy('created_at', 'asc');
+            $query->orderBy('created_at', 'asc');
         } elseif ($sortBy === 'name_asc') {
-            $users->orderBy('name', 'asc');
+            $query->orderBy('name', 'asc');
         } elseif ($sortBy === 'name_desc') {
-            $users->orderBy('name', 'desc');
+            $query->orderBy('name', 'desc');
         }
 
-        // Paginate dan append query string agar tetap ada di URL
-        $users = $users->paginate(10)->appends($request->query());
+        $users = $query->paginate(10)->appends(request()->query());
 
         return view('admin.manage-user', compact('users'));
     }
