@@ -19,9 +19,9 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum'])->get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/index/shop', [ShopController::class, 'products'])->name('shop')->middleware(RedirectIfGuest::class);
+Route::get('/index/product/{id}', [ProductController::class, 'show'])->name('detail')->middleware(RedirectIfGuest::class);
 Route::get('/contact', [ContactController::class, 'index'])->name('contact')->middleware(RedirectIfGuest::class);
 Route::get('/cart', [CartController::class, 'index'])->name('cart')->middleware(RedirectIfGuest::class);
-Route::get('/detail', [DetailController::class, 'index'])->name('detail')->middleware(RedirectIfGuest::class);
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware(RedirectIfGuest::class);
 
 Route::get('/index', [ProductController::class, 'userindex'])->name('user.products.index');
