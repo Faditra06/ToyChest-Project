@@ -73,11 +73,7 @@
         @endforeach
       </div>
 
-      <div class="btn-box">
-        <a href="{{ route('shop') }}" class="rounded-pill">
-          View All Products
-        </a>
-      </div>
+      {{ $randomProducts->links() }}
     </div>
   </section>
 

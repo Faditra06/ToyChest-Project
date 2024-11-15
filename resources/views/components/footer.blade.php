@@ -24,7 +24,7 @@
   <section class="info_section layout_padding2">
     <div class="container d-flex justify-content-center">
       <div class="row ms-20">
-        <div class="col-md-6 col-lg-3 info_col MS-20">
+        <div class="col-md-6 col-lg-3 info_col ms-20">
           <div class="info_contact" id="info_contact">
             <h4 class="text-white">
               Address

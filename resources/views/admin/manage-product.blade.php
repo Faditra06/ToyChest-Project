@@ -105,7 +105,7 @@
                                             <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure to delete this product?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                <button type="submit" class="btn btn-danger btn-sm mb-2">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
