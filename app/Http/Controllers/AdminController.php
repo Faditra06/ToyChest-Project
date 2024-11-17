@@ -68,4 +68,10 @@ class AdminController extends Controller
 
         return view('admin.manage-user', compact('users'));
     }
+
+    public function showTransactions()
+    {
+        $transactions = $this->getTransactionStatus('your_order_id');
+        return view('admin.transactions', compact('transactions'));
+    }
 }

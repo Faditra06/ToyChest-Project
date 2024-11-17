@@ -24,15 +24,25 @@
                     <x-nav-link href="{{ route('contact') }}" class="text-white uppercase mx-1">
                         Contact
                     </x-nav-link>
-                    <x-nav-link href="{{ route('cart') }}" class="text-white uppercase ms-2">
+                    <x-nav-link href="{{ route('cart') }}" class="text-white uppercase ms-2 text-xl">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        @auth
+                        @php
+                        $cartCount = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity');
+                        @endphp
+                        @if ($cartCount > 0)
+                        <span id="cart-badge" class="badge bg-red-500 text-white rounded-full px-2 text-xs mt-3">
+                            {{ $cartCount }}
+                        </span>
+                        @endif
+                        @endauth
                     </x-nav-link>
                     <form class="form-inline">
                         <button class="btn mx-1 my-2 my-sm-0 nav_search-btn" type="submit">
                             <i class="fa fa-search text-white" aria-hidden="true"></i>
                         </button>
                     </form>
-                    <x-dropdown >
+                    <x-dropdown>
                         <x-slot name="trigger">
                             <button class="flex items-center px-3 py-2 border-transparent text-md leading-4 font-sm rounded-full text-white bg-toychest2 hover:bg-toychest3 focus:outline-none focus:bg-toychest3 active:bg-toychest3 transition ease-in-out duration-150">
                                 <span>{{ Auth::user()->name }}</span>
@@ -63,3 +73,18 @@
         </div>
     </div>
 </nav>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cartBadge = document.getElementById('cart-badge');
+        if (cartBadge) {
+            const initialCartCount = {
+                {
+                    \
+                    App\ Models\ Cart::where('user_id', auth() - > id()) - > sum('quantity') ?? 0
+                }
+            };
+            cartBadge.textContent = initialCartCount;
+            cartBadge.style.display = initialCartCount > 0 ? 'block' : 'none';
+        }
+    });
+</script>

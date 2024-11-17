@@ -12,7 +12,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="css1/bootstrap.min.css" type="text/css">
@@ -23,13 +23,12 @@
     <link rel="stylesheet" href="css1/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css1/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css1/style.css" type="text/css">
+
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
+
 
     <!-- header section strats -->
     <x-app-layout>
@@ -44,8 +43,8 @@
                     <div class="breadcrumb__text">
                         <h4>Check Out</h4>
                         <div class="breadcrumb__links">
-                            <a href="./index.html">Home</a>
-                            <a href="./shop.html">Shop</a>
+                            <a href="{{ route('home') }}">Home</a>
+                            <a href="{{ route('shop') }}">Shop</a>
                             <span>Check Out</span>
                         </div>
                     </div>
@@ -136,7 +135,7 @@
                             <div class="checkout__input">
                                 <p>Order notes<span>*</span></p>
                                 <input type="text"
-                                placeholder="Notes about your order, e.g. special notes for delivery." class="rounded-full">
+                                    placeholder="Notes about your order, e.g. special notes for delivery." class="rounded-full">
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
@@ -190,7 +189,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <button type="submit" class="site-btn rounded-full bg-toychest1 hover:bg-toychest2 hover:text-white transition ease-in-out duration-300">Proceed to Checkout</button>
+                                <button type="button" class="site-btn rounded-full bg-toychest1 hover:bg-toychest2 hover:text-white transition ease-in-out duration-300" onclick="payNow()">Proceed to Checkout</button>
                             </div>
                         </div>
                     </div>
@@ -213,6 +212,29 @@
     <script src="js1/mixitup.min.js"></script>
     <script src="js1/owl.carousel.min.js"></script>
     <script src="js1/main.js"></script>
+
+
+    <script>
+        function payNow(snapToken) {
+            if (!snapToken) {
+                alert("Snap Token tidak ditemukan.");
+                return;
+            }
+            window.snap.pay(snapToken, {
+                onSuccess: function(result) {
+                    console.log('Success', result);
+                    // Redirect or update the status of the order
+                },
+                onPending: function(result) {
+                    console.log('Pending', result);
+                },
+                onError: function(result) {
+                    console.log('Error', result);
+                },
+            });
+        }
+    </script>
+
 </body>
 
 </html>

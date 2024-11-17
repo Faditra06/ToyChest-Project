@@ -21,10 +21,11 @@
     <link rel="stylesheet" href="{{ asset('css1/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css1/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css1/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/logreg_.css') }}" />
 </head>
 
 <body>
-    
+
 
     <!-- Header Section -->
     <x-app-layout></x-app-layout>
@@ -43,6 +44,11 @@
                     </div>
                 </div>
                 <div class="row">
+                    @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                     <!-- Thumbnail Image -->
                     <div class="col-lg-3 col-md-3">
                         <ul class="nav nav-tabs" role="tablist">
@@ -96,17 +102,25 @@
 
                             <!-- Cart & Buy -->
                             <div class="product__details__cart__option">
-                                <div class="quantity">
-                                    <div class="pro-qty rounded-full">
-                                        <input type="text" value="1">
+                                <form action="{{ route('cart.mashok') }}" method="POST" class="flex justify-self-center">
+                                    @csrf
+                                    <div class="quantity w-14">
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}" class="rounded-pill w-full"> <!-- Mengirimkan ID produk -->
+                                        <input type="number" name="quantity" value="1" min="1" class="rounded-pill w-full">
                                     </div>
-                                </div>
-                                <a href="{{ route('checkout', $product->id) }}" class="primary-btn rounded-full bg-toychest1 hover:bg-toychest2 hover:text-white transition ease-in-out duration-300">Buy</a>
+                                    <button type="submit" class="ms-3">Buy</button>
+                                </form>
                             </div>
                             <div class="product__details__btns__option">
-                                <a href="#"><i class="fa fa-cart-shopping"></i> add to cart</a>
+                                <form action="{{ route('cart.store') }}" method="POST" class="flex justify-self-center">
+                                    @csrf
+                                    <div class="quantity w-14">
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}" class="rounded-pill w-full"> <!-- Mengirimkan ID produk -->
+                                        <input type="number" name="quantity" value="1" min="1" class="rounded-pill w-full">
+                                    </div>
+                                    <button type="submit" class="ms-3">Add to Cart</button>
+                                </form>
                             </div>
-
                             <!-- Additional Info -->
                             <div class="product__details__last__option">
                                 <h5><span>Guaranteed Safe Checkout</span></h5>
@@ -154,6 +168,84 @@
     <script src="{{ asset('js1/jquery.slicknav.js') }}"></script>
     <script src="{{ asset('js1/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('js1/main.js') }}"></script>
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-OYORG6IH9tP7qosd"></script>
+
+    <script type="text/javascript">
+        function payNow() {
+            // Ambil snapToken dari API
+            fetch('/checkout')
+                .then(response => response.json())
+                .then(data => {
+                    var snapToken = data.snapToken; // Pastikan snapToken ada di response JSON
+
+                    // Gunakan Midtrans Snap API untuk memulai transaksi
+                    snap.pay(snapToken, {
+                        onSuccess: function(result) {
+                            // Tampilkan hasil transaksi berhasil
+                            alert("Pembayaran berhasil!");
+                            window.location.href = "/success"; // Redirect ke halaman sukses
+                        },
+                        onPending: function(result) {
+                            // Tampilkan hasil transaksi pending
+                            alert("Pembayaran menunggu konfirmasi!");
+                            window.location.href = "/pending"; // Redirect ke halaman pending
+                        },
+                        onError: function(result) {
+                            // Tampilkan hasil transaksi gagal
+                            alert("Pembayaran gagal!");
+                            window.location.href = "/failed"; // Redirect ke halaman gagal
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Terjadi kesalahan:', error);
+                });
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('form[action="{{ route('cart.store') }}"]').forEach(form => {
+                form.addEventListener('submit', async (event) => {
+                    event.preventDefault(); // Mencegah reload halaman
+
+                    const formData = new FormData(form);
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    try {
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json',
+                            },
+                            body: formData,
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            console.error('Error:', errorData.error);
+                            alert(errorData.error);
+                            return;
+                        }
+
+                        const data = await response.json();
+                        updateCartIcon(data.cartCount); // Memperbarui ikon cart
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });
+
+        // Fungsi untuk memperbarui ikon cart
+        function updateCartIcon(cartCount) {
+            const cartBadge = document.getElementById('cart-badge');
+            if (cartBadge) {
+                cartBadge.textContent = cartCount;
+                cartBadge.style.display = cartCount > 0 ? 'block' : 'none';
+            }
+        }
+    </script>
 </body>
 
 </html>

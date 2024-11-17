@@ -57,6 +57,12 @@
               <span class="hide-menu">Products</span>
             </a>
           </li>
+          <!-- <li class="sidebar-item">
+            <a class="sidebar-link" href="{{ route('admin.transactions') }}" aria-expanded="false">
+              <i class="ti ti-coin"></i>
+              <span class="hide-menu">Transactions</span>
+            </a>
+          </li> -->
           <li>
             <span class="sidebar-divider lg"></span>
           </li>
