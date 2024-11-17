@@ -188,51 +188,81 @@
     <script type="text/javascript">
         function payNow() {
             // Ambil snapToken dari API
-            fetch('/checkout') // Panggil backend untuk mengambil snapToken
+            fetch('/checkout')
                 .then(response => response.json())
                 .then(data => {
-                    var snapToken = data.snapToken; // Ambil snapToken dari response backend
+                    var snapToken = data.snapToken; // Pastikan snapToken ada di response JSON
 
-                    // Gunakan Snap JS untuk transaksi
+                    // Gunakan Midtrans Snap API untuk memulai transaksi
                     snap.pay(snapToken, {
                         onSuccess: function(result) {
-                            alert("Pembayaran berhasil!");
 
-                            // Langkah 3: Kirim permintaan untuk memeriksa status transaksi
-                            fetch('/check-transaction-status', {
+                            // Panggil API untuk mengosongkan cart di server
+                            fetch('/empty-cart', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
                                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                                     },
-                                    body: JSON.stringify({
-                                        transactionId: result.transaction_id
-                                    }) // Kirim transaction_id ke backend
+                                    body: JSON.stringify({}) // Kirim permintaan kosong untuk menghapus cart
                                 })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        console.log("Status transaksi berhasil diperbarui:", data);
-                                        handleEmptyCart(); // Kosongkan cart setelah pembayaran sukses
-                                    } else {
-                                        console.error("Gagal memeriksa status transaksi:", data);
-                                    }
+                                .then(response => {
+                                    // Redirect ke halaman cart setelah cart dikosongkan
+                                    window.location.href = "/cart";
                                 })
                                 .catch(error => {
-                                    console.error('Terjadi kesalahan saat memeriksa status transaksi:', error);
+                                    console.error('Terjadi kesalahan:', error);
+                                    window.location.href = "/cart"; // Tetap redirect ke cart meski ada error
                                 });
                         },
                         onPending: function(result) {
-                            alert("Pembayaran sedang diproses!");
-                            handleEmptyCart();
+                            // Tampilkan hasil transaksi pending
+                            alert("Pembayaran menunggu konfirmasi!");
+
+                            // Panggil API untuk mengosongkan cart di server
+                            fetch('/empty-cart', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                    },
+                                    body: JSON.stringify({}) // Kirim permintaan kosong untuk menghapus cart
+                                })
+                                .then(response => {
+                                    // Redirect ke halaman cart setelah cart dikosongkan
+                                    window.location.href = "/cart";
+                                })
+                                .catch(error => {
+                                    console.error('Terjadi kesalahan:', error);
+                                    window.location.href = "/cart"; // Tetap redirect ke cart meski ada error
+                                });
                         },
                         onError: function(result) {
-                            alert("Pembayaran gagal. Silakan coba lagi.");
+                            // Tampilkan hasil transaksi gagal
+                            alert("Pembayaran gagal!");
+
+                            // Panggil API untuk mengosongkan cart di server
+                            fetch('/empty-cart', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                    },
+                                    body: JSON.stringify({}) // Kirim permintaan kosong untuk menghapus cart
+                                })
+                                .then(response => {
+                                    // Redirect ke halaman cart setelah cart dikosongkan
+                                    window.location.href = "/cart";
+                                })
+                                .catch(error => {
+                                    console.error('Terjadi kesalahan:', error);
+                                    window.location.href = "/cart"; // Tetap redirect ke cart meski ada error
+                                });
                         }
                     });
                 })
                 .catch(error => {
-                    console.error('Terjadi kesalahan saat memproses pembayaran:', error);
+                    console.error('Terjadi kesalahan:', error);
                 });
         }
     </script>
